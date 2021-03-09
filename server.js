@@ -1,0 +1,33 @@
+const express = require("express");
+const mongoose = require("mongoose");
+require("dotenv").config();
+
+const app = express();
+
+// Add middleware
+app.use(express.json({ extended: false }));
+
+// Connect To route below
+app.use("/api/items", require("./routes/itemRoute"));
+
+// Getting mongo uri from the keys folder
+const url =
+  process.env.NODE_ENV === "production"
+    ? process.env.MONGO_URI
+    : process.env.MONGO_DEV_URI;
+
+// Connect to mongodb using mongoose
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.set("useCreateIndex", true);
+mongoose.connect(
+  url,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
+  () => console.log("MongoDb connected...")
+);
+
+const port = process.env.PORT || 5000;
+
+app.listen(port, console.log(`Server started on port ${port}`));

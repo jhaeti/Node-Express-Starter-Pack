@@ -2,17 +2,17 @@ const express = require("express");
 
 const Item = require("../models/Item");
 
-const router = express.Router();
+const route = express.Router();
 
 // Gets all Items and spit in json all the items
-router.get("/", (req, res) => {
+route.get("/", (req, res) => {
   Item.find()
     .then((items) => res.json(items))
     .catch((err) => console.log(err));
 });
 
 // Post an item to api/items
-router.post("/", (req, res) => {
+route.post("/", (req, res) => {
   const { name } = req.body;
   const newUser = new Item({ name });
   newUser
@@ -21,4 +21,14 @@ router.post("/", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-module.exports = router;
+// Deleting an Item
+route.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  Item.findById({ _id: id })
+    .then((item) => {
+      item.remove().then(() => res.json({ success: true }));
+    })
+    .catch(() => res.json({ success: false }));
+});
+
+module.exports = route;

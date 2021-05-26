@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 var cors = require("cors");
 require("dotenv").config();
 
@@ -7,6 +8,7 @@ const app = express();
 
 // Add middleware
 app.use(cors());
+app.use(cookieParser());
 app.use(express.json({ extended: false }));
 
 // Connect To route below

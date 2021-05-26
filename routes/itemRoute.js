@@ -1,6 +1,7 @@
 const express = require("express");
 
 const Item = require("../models/Item");
+const { auth } = require("./controllers/authMiddleware");
 
 const route = express.Router();
 
@@ -12,7 +13,7 @@ route.get("/", (req, res) => {
 });
 
 // Post an item to api/items
-route.post("/", (req, res) => {
+route.post("/", auth, (req, res) => {
   const { name } = req.body;
   const newUser = new Item({ name });
   newUser
@@ -22,7 +23,7 @@ route.post("/", (req, res) => {
 });
 
 // Deleting an Item
-route.delete("/:id", (req, res) => {
+route.delete("/:id", auth, (req, res) => {
   const { id } = req.params;
   Item.findById({ _id: id })
     .then((item) => {

@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
 
+const { setCookies } = require("./controllers/authMiddleware");
+
 const route = express.Router();
 
 // Register Route
@@ -35,6 +37,9 @@ route.post("/register", (req, res) => {
                 (err, token) => {
                   const { name, email, id } = user;
                   if (err) throw err;
+
+                  // Saving token in coookies before sending data
+                  setCookies;
                   res.json({ token, user: { name, email, id } });
                 }
               );
@@ -67,6 +72,9 @@ route.post("/login", (req, res) => {
               (err, token) => {
                 const { name, email, id } = user;
                 if (err) throw err;
+
+                // Saving token in coookies before sending data
+                setCookies;
                 res.json({ token, user: { name, email, id } });
               }
             );
